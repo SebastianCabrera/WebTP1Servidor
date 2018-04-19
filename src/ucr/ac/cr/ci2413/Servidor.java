@@ -69,7 +69,7 @@ class Servidor extends Thread
             String post = "";
             if(tam>0)
             {
-                char[] charPost = new char[tam];
+                char[] charPost = new char[tam]; //holi
                 br.read(charPost,0,tam); //Acá algo
                 post = new String(charPost); //Este se ocuparia en 'Datos' en la bitacora
             }
