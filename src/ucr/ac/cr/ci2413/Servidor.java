@@ -3,6 +3,7 @@ package ucr.ac.cr.ci2413;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -10,7 +11,9 @@ import java.util.Calendar;
 import java.io.File;
 import java.io.OutputStream;
 import java.io.FileInputStream;
+import java.io.FileWriter;
 import java.nio.file.Files;
+import java.sql.Timestamp;
 import java.util.Arrays;
 
 
@@ -40,6 +43,7 @@ class Servidor extends Thread
             File file= null; //Se va a guardar el archivo html que se va a devolver
             long length=0; //FALTA DCIR QUE ES
             Calendar calendario = Calendar.getInstance(); //Esto es para poder devolver la hora
+          
 
             //Si dir[1] no tiene un archivo, se tiene que cargar uno por default
             if(dir[1].length() < 2)
@@ -85,7 +89,7 @@ class Servidor extends Thread
                         || dir[0].equals("POST") || dir[0].equals("post"))
                 {
                     file = new File(absolute+dir[1]); //Se carga el file solicitado
-                    referer="http://locallhost:9999/";
+                    referer="http://locallhost:2222/";
                     System.out.println("Path: "+absolute+dir[1]);
                     if(file.exists()){
                         mensajeRetorno="HTTP/1.1 200 OK";
@@ -148,12 +152,29 @@ class Servidor extends Thread
                 }
                 fis.close();
             }
+            
+            //Bitacora
+            try {
+            	File bitacora = new File(absolute + "\\bitacora.txt");
+            	 BufferedWriter bw;
+                   bw = new BufferedWriter(new FileWriter(bitacora,true));
+                   String datos =post;
+                   Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+                   bw.append(dir[0]+"     "+timestamp.getTime()+"     "+servidor+"    "+referer+ "     "+dir[1]+"     "+datos);
+                   bw.append("\r\n");
+                 bw.close();
+            	
+            }catch(Exception e){
+            	e.printStackTrace();
+            }
+            
         }
 
-        //FALTA BITACORA
+        
         catch (IOException e)
         {
             e.printStackTrace();
         }
     }
+   
 }

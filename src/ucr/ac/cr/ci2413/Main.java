@@ -11,7 +11,7 @@ import javax.net.ssl.HttpsURLConnection;
 
 public class Main
 {
-    private static  int puerto = 6666;
+    private static  int puerto = 2222;
     public static void main(String[] args) {
         try {
             System.out.println("Servidor con puerto numero " + puerto);
